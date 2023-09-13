@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 
 import Map from './components/Map';
 
+import DataContext from './context';
+
 function App() {
-  const [data, getData] = useState({});
+  const [geoName, setGeoName] = useState({});
+  const [coordinates, setCoordinates] = useState('50.450939,30.522594'); //TODO: оставить одну переменную coordinates или markers
+  const [data, setData] = useState({}); //TODO переименовать data на date
 
   const temperature = data.data?.[0].coordinates[0].dates[0].value;
 
@@ -11,7 +15,7 @@ function App() {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString();
 
-    const url = `https://api.meteomatics.com/${formattedDate}/t_2m:C/49.988502,36.231416/json`;
+    const url = `https://api.meteomatics.com/${formattedDate}/t_2m:C/${coordinates}/json`;
     const username = 'no_bryl_vladislav';
     const password = 'DBKc9hT1w8';
     const base64Credentials = btoa(`${username}:${password}`);
@@ -19,23 +23,31 @@ function App() {
       'Authorization': `Basic ${base64Credentials}`,
     };
 
+    console.log(formattedDate);
+
     fetch(url, { headers })
       .then((res) => res.json())
-      .then((val) => getData(val))
+      .then((val) => setData(val))
       .catch((error) => {
         alert('Error fetching data:', error);
       });
-  }, []);
+  }, [coordinates]);
 
-  useEffect(() => {
-    console.log(data.data?.[0].coordinates[0].dates[0].value);
-  }, [data]);
+  useEffect(() => {}, [coordinates]);
+
+  const dataContext = {
+    geoName,
+    setGeoName,
+    setCoordinates,
+  };
 
   return (
     <>
-      <h1>Погода Харьков</h1>
-      <span>{`температура: ${temperature} ℃`}</span>
-      <Map />
+      <DataContext.Provider value={dataContext}>
+        <h1>{Object.keys(geoName).length ? `${geoName.city}, ${geoName.state}` : null}</h1>
+        <span>{`температура: ${temperature} ℃`}</span>
+        <Map />
+      </DataContext.Provider>
     </>
   );
 }
