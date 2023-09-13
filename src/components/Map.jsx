@@ -1,10 +1,10 @@
-import React from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import React, { useState } from 'react';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
 
 const containerStyle = {
-  width: '100wh',
+  width: '100%',
   height: '600px',
 };
 
@@ -13,8 +13,8 @@ const center = {
   lng: 36.229802,
 };
 
-function MyComponent() {
-  const [map, setMap] = React.useState(null);
+function Map() {
+  const [markerPosition, setMarkerPosition] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -23,24 +23,26 @@ function MyComponent() {
 
   const onLoad = React.useCallback(function callback(map) {
     map.setZoom(10);
-    setMap(map);
   }, []);
 
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
+  const onMapClick = (e) => {
+    setMarkerPosition({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
+  };
 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
       onLoad={onLoad}
-      onUnmount={onUnmount}>
-      <></>
+      onClick={onMapClick}>
+      {markerPosition ? <Marker position={markerPosition} /> : <></>}
     </GoogleMap>
   ) : (
     <></>
   );
 }
 
-export default React.memo(MyComponent);
+export default Map;
