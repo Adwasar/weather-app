@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import Map from './components/Map';
+
 function App() {
   const [data, getData] = useState({});
 
@@ -33,6 +35,7 @@ function App() {
     <>
       <h1>Погода Харьков</h1>
       <span>{`температура: ${temperature} ℃`}</span>
+      <Map />
     </>
   );
 }
