@@ -16,6 +16,7 @@
     "react-cool-onclickoutside": "^1.7.0",
     "react-dom": "^18.2.0",
     "react-geocode": "^0.2.3",
+    "sass": "^1.67.0",
     "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {

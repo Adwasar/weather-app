@@ -43,13 +43,13 @@ function App() {
   };
 
   return (
-    <>
-      <DataContext.Provider value={dataContext}>
+    <DataContext.Provider value={dataContext}>
+      <main className="container">
         <h1>{Object.keys(geoName).length ? `${geoName.city}, ${geoName.state}` : null}</h1>
         <span>{`температура: ${temperature} ℃`}</span>
         <Map />
-      </DataContext.Provider>
-    </>
+      </main>
+    </DataContext.Provider>
   );
 }
 
