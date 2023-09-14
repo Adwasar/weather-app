@@ -4,26 +4,27 @@ import Map from './components/Map';
 
 import DataContext from './context';
 
+const weatherApiName = import.meta.env.VITE_WEATHER_API_USERNAME;
+const weatherApiPass = import.meta.env.VITE_WEATHER_API_PASSWORD;
+
 function App() {
   const [geoName, setGeoName] = useState({});
-  const [coordinates, setCoordinates] = useState('50.450939,30.522594'); //TODO: оставить одну переменную coordinates или markers
-  const [data, setData] = useState({}); //TODO переименовать data на date
+  const [coordinates, setCoordinates] = useState('50.450939,30.522594');
+  const [date, setData] = useState({});
 
-  const temperature = data.data?.[0].coordinates[0].dates[0].value;
+  const temperature = date.data?.[0].coordinates[0].dates[0].value;
 
   useEffect(() => {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString();
 
     const url = `https://api.meteomatics.com/${formattedDate}/t_2m:C/${coordinates}/json`;
-    const username = 'no_bryl_vladislav';
-    const password = 'DBKc9hT1w8';
+    const username = weatherApiName;
+    const password = weatherApiPass;
     const base64Credentials = btoa(`${username}:${password}`);
     const headers = {
       'Authorization': `Basic ${base64Credentials}`,
     };
-
-    console.log(formattedDate);
 
     fetch(url, { headers })
       .then((res) => res.json())
