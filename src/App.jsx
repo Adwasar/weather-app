@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Map from './components/Map';
+import Map from './components/Map/Map';
 
 import DataContext from './context';
 

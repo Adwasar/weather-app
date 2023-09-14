@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Geocode from 'react-geocode';
 
-import DataContext from '../context';
+import DataContext from '../../context';
+import styles from './Map.module.scss';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
 
@@ -70,16 +71,20 @@ function Map() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markerPosition]);
 
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      onLoad={onLoad}
-      onClick={onMapClick}>
-      {markerPosition ? <Marker position={markerPosition} /> : <></>}
-    </GoogleMap>
-  ) : (
-    <></>
+  return (
+    <div className={styles.container}>
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          onLoad={onLoad}
+          onClick={onMapClick}>
+          {markerPosition ? <Marker position={markerPosition} /> : <></>}
+        </GoogleMap>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }
 
