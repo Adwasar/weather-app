@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Geocode from 'react-geocode';
+import PropTypes from 'prop-types';
 
 import DataContext from '../../context';
 import styles from './Map.module.scss';
 
 const apiKey = import.meta.env.VITE_MAP_API_KEY;
 
-function Map() {
-  const [markerPosition, setMarkerPosition] = useState({ lat: 50.450939, lng: 30.522594 });
+export default function Map({ markerPosition, setMarkerPosition }) {
   const [center, setCenter] = useState('');
 
   const dataContext = React.useContext(DataContext);
@@ -88,4 +88,7 @@ function Map() {
   );
 }
 
-export default Map;
+Map.propTypes = {
+  markerPosition: PropTypes.object,
+  setMarkerPosition: PropTypes.func,
+};

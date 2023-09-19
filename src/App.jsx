@@ -9,9 +9,10 @@ const weatherApiName = import.meta.env.VITE_WEATHER_API_USERNAME;
 const weatherApiPass = import.meta.env.VITE_WEATHER_API_PASSWORD;
 
 function App() {
-  const [geoName, setGeoName] = useState({});
+  const [markerPosition, setMarkerPosition] = useState({ lat: 50.450939, lng: 30.522594 });
   const [coordinates, setCoordinates] = useState('50.450939,30.522594');
-  const [date, setData] = useState({});
+  const [geoName, setGeoName] = useState({});
+  const [date, setDate] = useState({});
 
   const temperature = date.data?.[0].coordinates[0].dates[0].value;
 
@@ -29,15 +30,34 @@ function App() {
 
     fetch(url, { headers })
       .then((res) => res.json())
-      .then((val) => setData(val))
+      .then((val) => setDate(val))
       .catch((error) => {
         alert('Error fetching data:', error);
       });
+
+    const tempMarkerPosition = coordinates.split(',');
+    const tempLatPosition = tempMarkerPosition[0];
+    const tempLngPosition = tempMarkerPosition[1];
+    setMarkerPosition({ lat: +tempLatPosition, lng: +tempLngPosition });
   }, [coordinates]);
 
-  // useEffect(() => {
-  //   console.log(navigator);
-  // }, []);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log('Geolocation not supported');
+    }
+
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setCoordinates(`${latitude},${longitude}`);
+    }
+
+    function error() {
+      console.log('Unable to retrieve your location');
+    }
+  }, []);
 
   const dataContext = {
     geoName,
@@ -49,7 +69,7 @@ function App() {
     <DataContext.Provider value={dataContext}>
       <Header city={geoName.city} state={geoName.state} temperature={temperature} />
       <main className="container">
-        <Map />
+        <Map markerPosition={markerPosition} setMarkerPosition={setMarkerPosition} />
       </main>
     </DataContext.Provider>
   );
