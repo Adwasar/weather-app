@@ -1,7 +1,20 @@
 .header {
+  padding: 5px 0;
   background-color: #1f1f1f;
   color: #fff;
-  height: 62px;
+}
+
+.logo {
+  height: 60px;
+}
+
+.state {
+  display: inline-block;
+}
+
+.temperature {
+  margin-left: 8px;
+  font-size: 18px;
 }
 
 .container {
@@ -9,4 +22,20 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  padding: 0 20px;
+}
+
+@media (max-width: 700px) {
+  .logo {
+    height: 40px;
+  }
+
+  .state {
+    display: none;
+  }
+
+  .temperature {
+    margin-left: 6px;
+    font-size: 16px;
+  }
 }

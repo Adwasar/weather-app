@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import Header from './components/Header';
 import Map from './components/Map';
 
 import DataContext from './context';
@@ -44,9 +45,8 @@ function App() {
 
   return (
     <DataContext.Provider value={dataContext}>
+      <Header city={geoName.city} state={geoName.state} temperature={temperature} />
       <main className="container">
-        <h1>{Object.keys(geoName).length ? `${geoName.city}, ${geoName.state}` : null}</h1>
-        <span>{`температура: ${temperature} ℃`}</span>
         <Map />
       </main>
     </DataContext.Provider>
