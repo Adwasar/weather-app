@@ -17,7 +17,7 @@ export default function Header({ city, state, temperature }) {
 }
 
 Header.propTypes = {
-  city: PropTypes.string.isRequired,
-  state: PropTypes.string.isRequired,
-  temperature: PropTypes.string.isRequired,
+  city: PropTypes.string,
+  state: PropTypes.string,
+  temperature: PropTypes.number,
 };

@@ -35,7 +35,9 @@ function App() {
       });
   }, [coordinates]);
 
-  useEffect(() => {}, [coordinates]);
+  // useEffect(() => {
+  //   console.log(navigator);
+  // }, []);
 
   const dataContext = {
     geoName,
